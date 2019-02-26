@@ -1,0 +1,136 @@
+﻿@model PaginatedList<Tech_Challenge.Models.Biblioteca>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div style="background-color:cadetblue; !important" class="jumbotron">
+    <h1>Bibliotecas de Buenos Aires</h1>
+</div>
+
+
+<asp:Content id="bodyContent" runat="server">
+    <asp:ScriptManager id="ScriptManager1" runat="server"></asp:ScriptManager>
+    <asp:UpdatePanel id="UpdatePanel1">
+        <ContentTemplate>
+            <form asp-controller="BibliotecasController" asp-action="Index" UpdateMode=Conditional>
+                <div class="container pb-5">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <div><h3>FILTROS</h3></div>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group mb-4">
+                                <div class="col-md-4">
+                                    <input placeholder="Nombre" runat="server" type="text" class="form-control input-group-text" name="searchModel.Nombre">
+                                </div>
+                                <div class="col-md-4">
+                                    <input placeholder="Telefono" type="number" class="form-control input-group-text" min="1" name="searchModel.Telefono">
+                                </div>
+                                <div class="col-md-4">
+                                    <input placeholder="Observaciones" type="text" class="form-control input-group-text" name="searchModel.Observaciones">
+                                </div>
+                            </div>
+                            <div class="input-group mb-4">
+                                <div class="col-md-4">
+                                    <input placeholder="DireccionNormalizada" type="text" class="form-control input-group-text" name="searchModel.DireccionNormalizada">
+                                </div>
+                                <div class="col-md-4">
+                                    <input placeholder="Piso" type="number" class="form-control input-group-text" min="1" name="searchModel.Piso">
+                                </div>
+                                <div class="col-md-4">
+                                    <input placeholder="Barrio" type="text" class="form-control input-group-text" name="searchModel.Barrio">
+                                </div>
+                            </div>
+                            <div class="input-group mb-4">
+                                <div class="col-md-12">
+                                    <input placeholder="Codigo postal" type="text" class="form-control input-group-text" name="searchModel.CodigoPostalArgentino">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group-append pl-5 pr-5 pb-1">
+                            <button type="submit" class="btn btn-outline-secondary btn-block">FILTRAR</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+    <asp:UpdatePanel id="UpdatePanel2">
+        <ContentTemplate>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">
+                            @Html.Encode("Nombre")
+                        </th>
+                        <th scope="col">
+                            @Html.Encode("Telefono")
+                        </th>
+                        <th scope="col">
+                            @Html.Encode("Observaciones")
+                        </th>
+                        <th scope="col">
+                            @Html.Encode("DireccionNormalizada")
+                        </th>
+                        <th scope="col">
+                            @Html.Encode("Piso")
+                        </th>
+                        <th scope="col">
+                            @Html.Encode("Barrio")
+                        </th>
+                        <th scope="col">
+                            @Html.Encode("CodigoPostalArgentino")
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td scope="row">
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td scope="row">
+                                @Html.DisplayFor(modelItem => item.Telefono)
+                            </td>
+                            <td scope="row">
+                                @Html.DisplayFor(modelItem => item.Observaciones)
+                            </td>
+                            <td scope="row">
+                                @Html.DisplayFor(modelItem => item.DireccionNormalizada)
+                            </td>
+                            <td scope="row">
+                                @Html.DisplayFor(modelItem => item.Piso)
+                            </td>
+                            <td scope="row">
+                                @Html.DisplayFor(modelItem => item.Barrio)
+                            </td>
+                            <td scope="row">
+                                @Html.DisplayFor(modelItem => item.CodigoPostalArgentino)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageIndex - 1)"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageIndex + 1)"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+</asp:Content>

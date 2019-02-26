@@ -1,0 +1,114 @@
+﻿@model PaginatedList<Tech_Challenge.Models.Farmacia>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div style="background-color:forestgreen !important" class="jumbotron">
+    <h1>Farmacias de Buenos Aires</h1>
+</div>
+
+<form asp-controller="AtmsController" asp-action="Index" UpdateMode=Conditional>
+    <div class="container pb-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <div><h3>FILTROS</h3></div>
+            </div>
+            <div class="card-body">
+                <div class="input-group mb-4">
+                    <div class="col-md-4">
+                        <input placeholder="Telefono" runat="server" type="number" class="form-control input-group-text" min="1" name="searchModel.Telefono">
+                    </div>
+                    <div class="col-md-4">
+                        <input placeholder="Calle" type="text" class="form-control input-group-text" name="searchModel.CalleNombre">
+                    </div>
+                    <div class="col-md-4">
+                        <input placeholder="Altura" type="number" class="form-control input-group-text" min="1" name="searchModel.CalleAltura">
+                    </div>
+                </div>
+                <div class="input-group mb-4">
+                    <div class="col-md-4">
+                        <input placeholder="Cruce" type="text" class="form-control input-group-text" name="searchModel.CalleCruce">
+                    </div>
+                    <div class="col-md-4">
+                        <input placeholder="Barrio" type="text" class="form-control input-group-text" name="searchModel.Barrio">
+                    </div>
+                    <div class="col-md-4">
+                        <input placeholder="Codigo postal" type="text" class="form-control input-group-text" name="searchModel.CodigoPostalArgentino">
+                    </div>
+                </div>
+            </div>
+            <div class="input-group-append pl-5 pr-5 pb-1">
+                <input type="submit" class="btn btn-outline-secondary btn-block" value="FILTRAR" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">
+                @Html.Encode("Telefono")
+            </th>
+            <th scope="col">
+                @Html.Encode("Calle")
+            </th>
+            <th scope="col">
+                @Html.Encode("Altura")
+            </th>
+            <th scope="col">
+                @Html.Encode("Cruce")
+            </th>
+            <th scope="col">
+                @Html.Encode("Barrio")
+            </th>
+            <th scope="col">
+                @Html.Encode("Codigo postal")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.CalleNombre)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.CalleAltura)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.CalleCruce)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.Barrio)
+                </td>
+                <td scope="row">
+                    @Html.DisplayFor(modelItem => item.CodigoPostalArgentino)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-page="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-page="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
